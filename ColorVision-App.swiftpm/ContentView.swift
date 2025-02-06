@@ -17,14 +17,14 @@ struct ContentView: View {
                         .cornerRadius(10)
                 }
 
-//                NavigationLink(destination: ARColorIdentifierView()) {
-//                    Text("📷 AR Color Identifier")
-//                        .padding()
-//                        .frame(maxWidth: .infinity)
-//                        .background(Color.green)
-//                        .foregroundColor(.white)
-//                        .cornerRadius(10)
-//                }
+                NavigationLink(destination: ARColorIdentifierView()) {
+                    Text("📷 AR Color Identifier")
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.green)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
 
                 NavigationLink(destination: ColorblindSimulatorView()) {
                     Text("🎨 Colorblind Image Simulator")
