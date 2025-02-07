@@ -16,7 +16,7 @@ let package = Package(
         .iOSApplication(
             name: "ColorVision-App",
             targets: ["AppModule"],
-            bundleIdentifier: "com.example.ColorVision-App",
+            bundleIdentifier: "com.example.ColorVision",
             teamIdentifier: "WUZ7WCX8QM",
             displayVersion: "1.0",
             bundleVersion: "1",
@@ -40,5 +40,5 @@ let package = Package(
             path: "."
         )
     ],
-    swiftLanguageVersions: [.v6]
+    swiftLanguageVersions: [.version("6")]
 )
