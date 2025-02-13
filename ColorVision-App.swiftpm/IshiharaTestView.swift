@@ -9,49 +9,8 @@
 
 
 import SwiftUI
-//struct IshiharaPalette {
-//    static let backgroundColors: [Color] = [
-//        Color(red: 100/255, green: 200/255, blue: 100/255),
-//        Color(red: 110/255, green: 180/255, blue: 110/255),
-//        Color(red: 90/255, green: 210/255, blue: 120/255)
-//    ]
-//    
-//    static let numberColors: [Color] = [
-//        Color(red: 200/255, green: 100/255, blue: 100/255),
-//        Color(red: 190/255, green: 90/255, blue: 90/255),
-//        Color(red: 220/255, green: 120/255, blue: 120/255)
-//    ]
-//}
-//
-//// MARK: - Ishihara Plate Generator View
-//struct IshiharaPlateView: View {
-//    let number: String
-//    let dotCount = 1000
-//    
-//    var body: some View {
-//        ZStack {
-//            ForEach(0..<dotCount, id: \ .self) { _ in
-//                Circle()
-//                    .fill(Bool.random() ? IshiharaPalette.backgroundColors.randomElement()! : IshiharaPalette.numberColors.randomElement()!)
-//                    .frame(width: CGFloat.random(in: 5...15), height: CGFloat.random(in: 5...15))
-//                    .position(randomPosition())
-//            }
-//            Text(number)
-//                .font(.system(size: 80, weight: .bold))
-//                .foregroundColor(IshiharaPalette.numberColors.randomElement()!)
-//                .opacity(0.5)
-//        }
-//        .frame(width: 300, height: 300)
-//    }
-//    
-//    private func randomPosition() -> CGPoint {
-//        return CGPoint(x: CGFloat.random(in: 0...300), y: CGFloat.random(in: 0...300))
-//    }
-//}
 
 
-
-// MARK: - Updated Ishihara Test View
 struct IshiharaTestView: View {
     @State private var userInput = ""
     @State private var currentIndex = 0
@@ -75,7 +34,7 @@ struct IshiharaTestView: View {
         ("74", "21", "21"),
         ("2", "4", "4"),
         
-        // MARK: - Hello
+        // MARK: - Diffrentiator plates
         ("26","6","2"),
         ("42","2","4"),
         ("35","5","3"),
@@ -159,7 +118,7 @@ struct IshiharaTestView: View {
     }
     
     private func detectDeficiency() {
-        let significantThreshold = 4  // Clinical studies suggest 4+ errors indicate deficiency
+        let significantThreshold = 4
         
         if protanopiaCount >= significantThreshold {
             colorBlindnessType = "Protanopia"
@@ -204,7 +163,6 @@ struct IshiharaTestView: View {
     }}
 
 
-// MARK: - Result View
 struct ResultView: View {
     let finalMessage: String
 
