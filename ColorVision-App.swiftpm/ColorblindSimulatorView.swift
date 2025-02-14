@@ -75,14 +75,14 @@ struct ColorRemapView: View {
         
         switch colorBlindnessType {
         case "Protanopia":
-            filter.rVector = CIVector(x: 0.8, y: 0.2, z: 0, w: 0) // Shift reds to orange/yellow
-            filter.gVector = CIVector(x: 0.3, y: 0.7, z: 0, w: 0) // Boost greens to be more cyan
-            filter.bVector = CIVector(x: 0, y: 0.1, z: 0.9, w: 0) // Keep blues normal
+            filter.rVector = CIVector(x: 0.8, y: 0.2, z: 0, w: 0)
+            filter.gVector = CIVector(x: 0.3, y: 0.7, z: 0, w: 0)
+            filter.bVector = CIVector(x: 0, y: 0.1, z: 0.9, w: 0) 
         
         case "Deuteranopia":
-            filter.rVector = CIVector(x: 0.6, y: 0.4, z: 0, w: 0) // Make reds less dominant
-            filter.gVector = CIVector(x: 0.3, y: 0.7, z: 0, w: 0) // Shift greens to cyan
-            filter.bVector = CIVector(x: 0, y: 0.2, z: 0.8, w: 0) // Adjust blues slightly
+            filter.rVector = CIVector(x: 0.6, y: 0.4, z: 0, w: 0)
+            filter.gVector = CIVector(x: 0.3, y: 0.7, z: 0, w: 0)
+            filter.bVector = CIVector(x: 0, y: 0.2, z: 0.8, w: 0)
         
         default:
             return
