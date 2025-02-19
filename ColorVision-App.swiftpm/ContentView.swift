@@ -61,7 +61,7 @@ struct ContentView: View {
                                 .cornerRadius(10)
                         }
 
-                        NavigationLink(destination: ARColorIdentifierView()) {
+                        NavigationLink(destination: ARViewContainer()) {
                             Text("AR Color Identifier")
                                 .padding()
                                 .frame(maxWidth: .infinity)
