@@ -68,7 +68,7 @@ struct ContentView: View {
                                 .background(Color(red: 224/255, green: 220/255, blue: 211/255))
                                 .foregroundColor(.black)
                                 .cornerRadius(10)
-                        }
+                         }
 
                         NavigationLink(destination: PhotoColorIdentifierView()) {  // New Feature
                                                     Text("Photo-Based Color Identification")

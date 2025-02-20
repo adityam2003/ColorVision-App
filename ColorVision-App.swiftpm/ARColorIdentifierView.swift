@@ -517,13 +517,64 @@ struct ARViewContainer: UIViewRepresentable {
 
         func closestColorName(for color: UIColor) -> String {
             let colors: [(name: String, uiColor: UIColor)] = [
-                ("Red", .red), ("Green", .green), ("Blue", .blue), ("Yellow", .yellow),
-                ("Cyan", .cyan), ("Magenta", .magenta), ("Black", .black), ("White", .white),
-                ("Gray", .gray), ("Orange", .orange), ("Purple", .purple)
+                ("Red", UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)),
+                ("Dark Red", UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0)),
+                ("Light Red", UIColor(red: 1.0, green: 0.4, blue: 0.4, alpha: 1.0)),
+                
+                ("Green", UIColor(red: 0.0, green: 1.0, blue: 0.0, alpha: 1.0)),
+                ("Dark Green", UIColor(red: 0.0, green: 0.5, blue: 0.0, alpha: 1.0)),
+                ("Olive", UIColor(red: 0.5, green: 0.5, blue: 0.0, alpha: 1.0)),
+                ("Yellow-Green", UIColor(red: 0.7, green: 0.8, blue: 0.2, alpha: 1.0)),
+                
+                ("Blue", UIColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 1.0)),
+                ("Dark Blue", UIColor(red: 0.0, green: 0.0, blue: 0.6, alpha: 1.0)),
+                ("Light Blue", UIColor(red: 0.4, green: 0.6, blue: 1.0, alpha: 1.0)),
+
+                ("Yellow", UIColor(red: 1.0, green: 1.0, blue: 0.0, alpha: 1.0)),
+                ("Golden Yellow", UIColor(red: 1.0, green: 0.8, blue: 0.2, alpha: 1.0)),
+
+                ("Cyan", UIColor(red: 0.0, green: 1.0, blue: 1.0, alpha: 1.0)),
+                ("Teal", UIColor(red: 0.0, green: 0.5, blue: 0.5, alpha: 1.0)),
+
+                ("Magenta", UIColor(red: 1.0, green: 0.0, blue: 1.0, alpha: 1.0)),
+                ("Pink", UIColor(red: 1.0, green: 0.4, blue: 0.6, alpha: 1.0)),
+
+                ("Brown", UIColor(red: 0.6, green: 0.3, blue: 0.0, alpha: 1.0)),
+                ("Dark Brown", UIColor(red: 0.4, green: 0.2, blue: 0.0, alpha: 1.0)),
+                ("Beige", UIColor(red: 0.9, green: 0.8, blue: 0.6, alpha: 1.0)),
+
+                ("Black", .black),
+                ("White", .white),
+                ("Gray", .gray),
+                ("Dark Gray", UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1.0)),
+                ("Light Gray", UIColor(red: 0.7, green: 0.7, blue: 0.7, alpha: 1.0))
             ]
-            
-            return colors.min(by: { color.distance(to: $0.uiColor) < color.distance(to: $1.uiColor) })?.name ?? "Unknown"
+
+            guard let closestMatch = colors.min(by: { color.distance(to: $0.uiColor) < color.distance(to: $1.uiColor) })
+            else { return "Unknown" }
+
+            let matchDistance = color.distance(to: closestMatch.uiColor)
+            let distanceThreshold: CGFloat = 0.35
+
+            return matchDistance <= distanceThreshold ? closestMatch.name : "Unknown"
         }
+//        func closestColorName(for color: UIColor) -> String {
+//            let colors: [(name: String, uiColor: UIColor)] = [
+//                ("Red", .red), ("Green", .green), ("Blue", .blue), ("Yellow", .yellow),
+//                ("Cyan", .cyan), ("Magenta", .magenta), ("Black", .black), ("White", .white),
+//                ("Gray", .gray), ("Orange", .orange), ("Purple", .purple)
+//            ]
+//            
+//            // Find the closest color match
+//            guard let closestMatch = colors.min(by: { color.distance(to: $0.uiColor) < color.distance(to: $1.uiColor) })
+//            else { return "Unknown" }
+//            
+//            // Check if the closest match is within a reasonable threshold
+//            let matchDistance = color.distance(to: closestMatch.uiColor)
+//            let distanceThreshold: CGFloat = 0.35 // Adjust this value based on testing
+//            
+//            return matchDistance <= distanceThreshold ? closestMatch.name : "Unknown"
+//        }
 
 
         

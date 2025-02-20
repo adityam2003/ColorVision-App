@@ -352,9 +352,12 @@ struct PhotoColorIdentifierView: View {
 //        }
 //    }
 //}
+//
+//  
+//        
 
+     
   
-        
 
         var body: some View {
             VStack {
@@ -378,8 +381,7 @@ struct PhotoColorIdentifierView: View {
                                             y: location.y * (imageSize.height / geometry.size.height)
                                         )
 
-                                        if let processedImage = adjustImage(image), // Enhance contrast & saturation
-                                           let tappedColor = getPixelColor(from: processedImage, at: tapLocation) {
+                                        if let tappedColor = getAverageColor(from: image, at: tapLocation) {
                                             tappedColorName = closestColor(to: tappedColor)
                                         }
                                     }
@@ -416,57 +418,41 @@ struct PhotoColorIdentifierView: View {
             }
         }
 
-        // ✅ **1. Adjust Image Contrast & Saturation to Enhance Colors**
-        func adjustImage(_ image: UIImage) -> UIImage? {
-            let ciImage = CIImage(image: image)
-            let filter = CIFilter.colorControls()
-            filter.inputImage = ciImage
-            filter.contrast = 1.5  // Increase contrast
-            filter.saturation = 2.0 // Increase color saturation
-
-            let context = CIContext()
-            if let output = filter.outputImage,
-               let cgImage = context.createCGImage(output, from: output.extent) {
-                return UIImage(cgImage: cgImage)
+        func getAverageColor(from image: UIImage, at point: CGPoint) -> UIColor? {
+            guard let cgImage = image.cgImage,
+                  let data = cgImage.dataProvider?.data,
+                  let pixelData = CFDataGetBytePtr(data) else {
+                return nil
             }
-            return image // Return original if filtering fails
-        }
-
-        // ✅ **2. Correctly Extract Pixel Color from Image**
-        func getPixelColor(from image: UIImage, at point: CGPoint) -> UIColor? {
-            guard let cgImage = image.cgImage else { return nil }
 
             let width = cgImage.width
             let height = cgImage.height
             let bytesPerPixel = 4
-            let bytesPerRow = width * bytesPerPixel
-            let bitmapData = UnsafeMutablePointer<UInt8>.allocate(capacity: height * bytesPerRow)
-            defer { bitmapData.deallocate() }
+            let radius = 3
+            var totalRed: CGFloat = 0, totalGreen: CGFloat = 0, totalBlue: CGFloat = 0
+            var count: CGFloat = 0
 
-            guard let context = CGContext(
-                data: bitmapData,
-                width: width,
-                height: height,
-                bitsPerComponent: 8,
-                bytesPerRow: bytesPerRow,
-                space: CGColorSpaceCreateDeviceRGB(),
-                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
-            ) else { return nil }
+            for dx in -radius...radius {
+                for dy in -radius...radius {
+                    let x = Int(point.x) + dx
+                    let y = Int(point.y) + dy
 
-            context.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
+                    if x >= 0, x < width, y >= 0, y < height {
+                        let pixelIndex = (width * y + x) * bytesPerPixel
+                        totalRed += CGFloat(pixelData[pixelIndex])
+                        totalGreen += CGFloat(pixelData[pixelIndex + 1])
+                        totalBlue += CGFloat(pixelData[pixelIndex + 2])
+                        count += 1
+                    }
+                }
+            }
 
-            let x = min(max(Int(point.x), 0), width - 1)
-            let y = min(max(Int(point.y), 0), height - 1)
-            let pixelIndex = (y * width + x) * bytesPerPixel
-
-            let r = CGFloat(bitmapData[pixelIndex]) / 255.0
-            let g = CGFloat(bitmapData[pixelIndex + 1]) / 255.0
-            let b = CGFloat(bitmapData[pixelIndex + 2]) / 255.0
-
-            return UIColor(red: r, green: g, blue: b, alpha: 1.0)
+            return UIColor(red: totalRed / (255.0 * count),
+                           green: totalGreen / (255.0 * count),
+                           blue: totalBlue / (255.0 * count),
+                           alpha: 1.0)
         }
 
-        // ✅ **3. Improve Color Matching with Euclidean Distance in RGB Space**
         func closestColor(to color: UIColor) -> String {
             var minDistance = Double.infinity
             var closestColorName = "Unknown"
@@ -475,11 +461,9 @@ struct PhotoColorIdentifierView: View {
             color.getRed(&r1, green: &g1, blue: &b1, alpha: &a)
 
             for (name, r2, g2, b2) in x11Colors {
-                let distance = sqrt(
-                    pow(Double(r1 * 255 - CGFloat(r2)), 2) +
-                    pow(Double(g1 * 255 - CGFloat(g2)), 2) +
-                    pow(Double(b1 * 255 - CGFloat(b2)), 2)
-                )
+                let distance = pow(Double(r1 * 255 - CGFloat(r2)), 2) +
+                               pow(Double(g1 * 255 - CGFloat(g2)), 2) +
+                               pow(Double(b1 * 255 - CGFloat(b2)), 2)
 
                 if distance < minDistance {
                     minDistance = distance
