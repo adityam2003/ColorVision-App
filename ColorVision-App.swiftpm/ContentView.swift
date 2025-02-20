@@ -70,14 +70,14 @@ struct ContentView: View {
                                 .cornerRadius(10)
                         }
 
-                        NavigationLink(destination: ColorRemapView()) {
-                            Text("Color Remapping")
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color(red: 224/255, green: 220/255, blue: 211/255))
-                                .foregroundColor(.black)
-                                .cornerRadius(10)
-                        }
+                        NavigationLink(destination: PhotoColorIdentifierView()) {  // New Feature
+                                                    Text("Photo-Based Color Identification")
+                                                        .padding()
+                                                        .frame(maxWidth: .infinity)
+                                                        .background(Color(red: 224/255, green: 220/255, blue: 211/255))
+                                                        .foregroundColor(.black)
+                                                        .cornerRadius(10)
+                                                }
                     }
                 }
                 .padding(.horizontal)
