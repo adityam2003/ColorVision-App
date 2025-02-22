@@ -1,13 +1,8 @@
-//
+
 //  File.swift
 //  ColorVision-App
 //
 //  Created by Aditya on 06/02/25.
-//
-//
-
-
-
 
 
 import SwiftUI
@@ -20,6 +15,7 @@ struct PhotoColorIdentifierView: View {
     @State private var tappedColorName: String = "Tap on the image to identify color"
     @State private var showPhotoPicker = false
     @State private var processedImage: CGImage?
+  
 private let sampleImage = UIImage(named: "SampleImage")
 
     let x11Colors: [(name: String, r: Int, g: Int, b: Int)] = [
@@ -387,4 +383,5 @@ struct PhotoPicker: UIViewControllerRepresentable {
         }
     }
 }
+
 

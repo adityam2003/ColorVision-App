@@ -1,8 +1,8 @@
+
+
+
+
 import SwiftUI
-
-
-
-
 
 struct ContentView: View {
     @AppStorage("colorBlindnessType") private var colorBlindnessType: String?
@@ -10,82 +10,84 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView {
-            VStack(spacing: 10) {
-               
-                VStack {
-                    Text("Detected Condition")
-                        .font(.headline)
-                        .foregroundColor(.white)
+            ZStack {
+                LinearGradient(gradient: Gradient(colors: [Color.blue.opacity(0.6), Color.blue.opacity(0.3)]),
+                               startPoint: .topLeading, endPoint: .bottomTrailing)
+                    .ignoresSafeArea()
 
-                    if let blindnessType = colorBlindnessType {
-                        Text(blindnessType)
+                ScrollView {
+                    VStack(spacing: 25) {
+                        Text("Color Vision Assistant")
                             .font(.title)
                             .bold()
                             .foregroundColor(.white)
-                    } else {
-                        Text("No condition detected yet")
-                            .font(.title2)
-                            .foregroundColor(.white)
-                    }
-                }
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(Color.blue)
-                .cornerRadius(12)
-                .padding(.horizontal)
-                .padding(.top, 20)
+                            .padding(.top, 20)
 
-                Spacer()
+                        Image(systemName: "eye.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 120, height: 120)
+                            .foregroundColor(.white.opacity(0.9))
 
-                VStack(spacing: 15) {
-                    if !testTaken || colorBlindnessType == "Normal" {
-                        NavigationLink(destination: IshiharaTestView(onTestCompletion: {
-                            testTaken = true
-                        })) {
-                            Text("Start Ishihara Test")
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color.green)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                        }
-                    }
+                        VStack(spacing: 8) {
+                            Text("Detected Condition")
+                                .font(.headline)
+                                .foregroundColor(.gray)
 
-                    if testTaken, let blindnessType = colorBlindnessType, blindnessType != "Normal" {
-                        NavigationLink(destination: IshiharaTestView()) {
-                            Text("Ishihara Color Blindness Test")
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color(red: 224/255, green: 220/255, blue: 211/255))
+                            Text(colorBlindnessType ?? "No condition detected yet")
+                                .font(.title3)
+                                .bold()
                                 .foregroundColor(.black)
-                                .cornerRadius(10)
                         }
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.white)
+                        .cornerRadius(15)
+                        .shadow(radius: 4)
+                        .padding(.horizontal)
+                        Spacer()
+                        Spacer()
 
-                        NavigationLink(destination: ARViewContainer()) {
-                            Text("AR Color Identifier")
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color(red: 224/255, green: 220/255, blue: 211/255))
-                                .foregroundColor(.black)
-                                .cornerRadius(10)
-                         }
+                        // Feature Buttons
+                        VStack(spacing: 15) {
+                            NavigationLink(destination: IshiharaTestView(onTestCompletion: {
+                                testTaken = true
+                            })) {
+                                featureButton(title: "Take Ishihara Test", icon: "eye", color: .blue)
+                            }
 
-                        NavigationLink(destination: PhotoColorIdentifierView()) {  // New Feature
-                                                    Text("Photo-Based Color Identification")
-                                                        .padding()
-                                                        .frame(maxWidth: .infinity)
-                                                        .background(Color(red: 224/255, green: 220/255, blue: 211/255))
-                                                        .foregroundColor(.black)
-                                                        .cornerRadius(10)
-                                                }
+                            if testTaken, let blindnessType = colorBlindnessType, blindnessType != "Normal" {
+                                NavigationLink(destination: ARViewContainer()) {
+                                    featureButton(title: "AR Color Identifier", icon: "arkit", color: .purple)
+                                }
+
+                                NavigationLink(destination: PhotoColorIdentifierView()) {
+                                    featureButton(title: "Photo-Based Color Identification", icon: "photo", color: .pink)
+                                }
+                            }
+                        }
+                        .padding(.horizontal)
                     }
+                    .padding(.bottom, 30)
                 }
-                .padding(.horizontal)
-
-                Spacer()
             }
-            .padding()
-            .navigationTitle("Home")
         }
     }
+
+    private func featureButton(title: String, icon: String, color: Color) -> some View {
+        HStack {
+            Image(systemName: icon)
+                .font(.headline)
+                .foregroundColor(.white)
+            Text(title)
+                .font(.headline)
+        }
+        .padding()
+        .frame(maxWidth: .infinity)
+        .background(color)
+        .foregroundColor(.white)
+        .cornerRadius(12)
+        .shadow(radius: 3)
+    }
 }
+
