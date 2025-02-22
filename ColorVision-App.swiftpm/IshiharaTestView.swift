@@ -32,6 +32,12 @@ struct IshiharaTestView: View {
                             Text("Ishihara Test")
                                 .font(.title)
                                 .fontWeight(.bold)
+                            Image(ishiharaPlates[currentIndex].imageName)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 250, height: 250)
+                                    .padding()
+                            
                             Text("Select the number you see")
                                 .font(.headline)
                                 .foregroundColor(.gray)
@@ -52,7 +58,7 @@ struct IshiharaTestView: View {
                             Spacer()
                         }
                         .padding()
-                        .navigationTitle("Ishihara Test")
+//                        .navigationTitle("Ishihara Test")
                         .navigationBarTitleDisplayMode(.inline)
                         .navigationBarBackButtonHidden(false)
                     }
@@ -93,10 +99,10 @@ struct IshiharaTestView: View {
         
         if protanopiaCount >= significantThreshold {
             colorBlindnessType = "Protanopia"
-            finalMessage = "Diagnosis: Protanopia (Red-Blind)\n\nYou may have difficulty distinguishing red shades.\n\nYou may Consult a Doctor for further evaluation."
+            finalMessage = "Diagnosis: Protanopia (Red-Blind)\n\nYou may have difficulty distinguishing red shades.\n\nYou should Consult a Doctor for further evaluation."
         } else if deuteranopiaCount >= significantThreshold {
             colorBlindnessType = "Deuteranopia"
-            finalMessage = "Diagnosis: Deuteranopia (Green-Blind)\n\nYou may struggle to differentiate green from red. \n\nYou may Consult a Doctor for further evaluation"
+            finalMessage = "Diagnosis: Deuteranopia (Green-Blind)\n\nYou may struggle to differentiate green from red. \n\nYou should Consult a Doctor for further evaluation"
         } else {
             colorBlindnessType = "Normal"
             finalMessage = "Diagnosis: Normal Color Vision\n\nYour responses suggest no significant color vision deficiency."
