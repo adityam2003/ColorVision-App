@@ -129,15 +129,18 @@ private let sampleImage = UIImage(named: "SampleImage")
     ]
     
     var body: some View {
+        ZStack {
+            LinearGradient(gradient: Gradient(colors: [Color.blue.opacity(0.3), Color.white]), startPoint: .top, endPoint: .bottom)
+                .edgesIgnoringSafeArea(.all)
             VStack {
                 Text("Photo-Based Color Identifier")
                     .font(.title2)
                     .padding()
-
+                
                 if let image = processedImage {
                     Image(decorative: image, scale: 1.0)
                         .resizable()
-                        .scaledToFill()
+                        .scaledToFit()
                         .overlay(
                             GeometryReader { geometry in
                                 Color.clear
@@ -148,7 +151,7 @@ private let sampleImage = UIImage(named: "SampleImage")
                                             x: location.x * (imageSize.width / geometry.size.width),
                                             y: location.y * (imageSize.height / geometry.size.height)
                                         )
-
+                                        
                                         if let tappedColor = getAverageColor(from: image, at: tapLocation) {
                                             tappedColorName = closestColor(to: tappedColor)
                                         }
@@ -161,7 +164,7 @@ private let sampleImage = UIImage(named: "SampleImage")
                         .foregroundColor(.gray)
                         .padding()
                 }
-
+                
                 Text(tappedColorName)
                     .font(.headline)
                     .padding()
@@ -169,7 +172,7 @@ private let sampleImage = UIImage(named: "SampleImage")
                     .background(Color.white)
                     .cornerRadius(10)
                     .shadow(radius: 5)
-
+                
                 Button("Select Photo") {
                     showPhotoPicker = true
                 }
@@ -178,7 +181,7 @@ private let sampleImage = UIImage(named: "SampleImage")
                 .foregroundColor(.white)
                 
                 .cornerRadius(10)
-
+                
                 Spacer()
             }
             .padding()
@@ -191,6 +194,7 @@ private let sampleImage = UIImage(named: "SampleImage")
                 }
             }
             .onChange(of: selectedImage) { _ in processImage() }
+        }
         }
 
         func processImage() {
