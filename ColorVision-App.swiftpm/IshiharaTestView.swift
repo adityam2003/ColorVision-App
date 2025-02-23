@@ -18,6 +18,7 @@ struct IshiharaTestView: View {
     @AppStorage("colorBlindnessType") private var colorBlindnessType: String = "Normal"
     @AppStorage("testTaken") private var testTaken: Bool = false
 
+
     var onTestCompletion: (() -> Void)?
     
     var body: some View {
@@ -132,6 +133,9 @@ struct IshiharaTestView: View {
 struct ResultView: View {
     let finalMessage: String
     var restartTest: () -> Void
+    @AppStorage("arFirstTime") private var arFirstTime: Bool = true
+    @AppStorage("ciFirstTime") private var ciFirstTime: Bool = true
+
 
     var body: some View {
         VStack {
@@ -154,5 +158,9 @@ struct ResultView: View {
         }
         .padding()
         .navigationBarBackButtonHidden(true)
+        .onAppear(){
+            arFirstTime = true
+            ciFirstTime = true
+        }
     }
 }

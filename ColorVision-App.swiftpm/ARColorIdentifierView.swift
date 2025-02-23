@@ -123,6 +123,9 @@ struct ARViewContainer: UIViewRepresentable {
                 ("Red", UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)),
                 ("Dark Red", UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0)),
                 ("Light Red", UIColor(red: 1.0, green: 0.4, blue: 0.4, alpha: 1.0)),
+                ("Orange",UIColor(red: 1.0, green: 0.65, blue: 0.0, alpha: 1.0)),
+                ("Maroon",UIColor(red: 0.5, green: 0.0, blue: 0.0, alpha: 1.0)),
+                
                 
                 ("Green", UIColor(red: 0.0, green: 1.0, blue: 0.0, alpha: 1.0)),
                 ("Dark Green", UIColor(red: 0.0, green: 0.5, blue: 0.0, alpha: 1.0)),
@@ -141,6 +144,7 @@ struct ARViewContainer: UIViewRepresentable {
 
                 ("Magenta", UIColor(red: 1.0, green: 0.0, blue: 1.0, alpha: 1.0)),
                 ("Pink", UIColor(red: 1.0, green: 0.4, blue: 0.6, alpha: 1.0)),
+                ("Purple",UIColor(red: 0.5, green: 0.0, blue: 0.5, alpha: 1.0)),
 
                 ("Brown", UIColor(red: 0.6, green: 0.3, blue: 0.0, alpha: 1.0)),
                 ("Dark Brown", UIColor(red: 0.4, green: 0.2, blue: 0.0, alpha: 1.0)),

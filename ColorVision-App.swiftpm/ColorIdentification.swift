@@ -14,6 +14,8 @@ struct PhotoColorIdentifierView: View {
     @State private var selectedImage: UIImage?
     @State private var tappedColorName: String = "Tap on the image to identify color"
     @State private var showPhotoPicker = false
+    @State private var showInfoAlert = false
+
     @State private var processedImage: CGImage?
   
 private let sampleImage = UIImage(named: "SampleImage")
@@ -133,6 +135,17 @@ private let sampleImage = UIImage(named: "SampleImage")
             LinearGradient(gradient: Gradient(colors: [Color.blue.opacity(0.3), Color.white]), startPoint: .top, endPoint: .bottom)
                 .edgesIgnoringSafeArea(.all)
             VStack {
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        showInfoAlert = true
+                    }) {
+                        Image(systemName: "info.circle")
+                            .foregroundColor(.blue)
+                            .font(.title)
+                            .padding()
+                    }
+                }
                 Text("Photo-Based Color Identifier")
                     .font(.title2)
                     .padding()
@@ -195,7 +208,14 @@ private let sampleImage = UIImage(named: "SampleImage")
             }
             .onChange(of: selectedImage) { _ in processImage() }
         }
-        }
+        
+        .alert(isPresented: $showInfoAlert) {
+            Alert(
+                title: Text("How It Works"),
+                message: Text("Tap anywhere on the image to identify the closest color name.\n📌 Note: For best results, use Photo-Based Color Identification on simple images with clear, distinct colors."),
+                dismissButton: .default(Text("OK"))
+            )
+        }}
 
         func processImage() {
             guard let uiImage = selectedImage else {

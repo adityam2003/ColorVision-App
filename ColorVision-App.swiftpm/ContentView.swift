@@ -1,12 +1,14 @@
-
-
-
-
 import SwiftUI
 
 struct ContentView: View {
     @AppStorage("colorBlindnessType") private var colorBlindnessType: String?
     @AppStorage("testTaken") private var testTaken: Bool = false
+    @AppStorage("arFirstTime") private var arFirstTime: Bool = true
+    @AppStorage("ciFirstTime") private var ciFirstTime: Bool = true
+    @State private var showAlert = false
+    @State private var navigateToAR = false
+    @State private var showAlertCI = false
+    @State private var navigateToCI = false
 
     var body: some View {
         NavigationView {
@@ -58,18 +60,70 @@ struct ContentView: View {
 
 
                             if testTaken, let blindnessType = colorBlindnessType, blindnessType != "Normal" {
-                                NavigationLink(destination: ARViewContainer()) {
-                                    featureButton(title: "AR Color Identifier", icon: "arkit", color: .purple)
-                                }
-
-
-                                NavigationLink(destination: PhotoColorIdentifierView()) {
-                                    featureButton(title: "Photo-Based Color Identification", icon: "photo", color: .pink)
-
+                                
+                                ZStack {
+                                    Button(action: {
+                                        if arFirstTime {
+                                            showAlert = true
+                                        } else {
+                                            navigateToAR = true
+                                        }
+                                    }) {
+                                        featureButton(title: "AR Color Identifier", icon: "arkit", color: .purple)
+                                    }
+                                    .alert(isPresented: $showAlert) {
+                                        Alert(
+                                            title: Text("Important Information"),
+                                            message: Text("The AR color identifier is limited to detecting colors that are affected by the type of color blindness and may give incorrect results for others. To get more info click on the info icon"),
+                                            dismissButton: .default(Text("Continue"), action: {
+                                                arFirstTime = false
+                                                navigateToAR = true
+                                            })
+                                        )
+                                    }
+                                    
+                                    NavigationLink(destination: ARViewContainer(), isActive: $navigateToAR) {
+                                        EmptyView()
+                                    }
+                                    .hidden()
                                 }
                                 
-
-                            }
+                                if testTaken, let blindnessType = colorBlindnessType, blindnessType != "Normal" {
+                                    
+                                    ZStack {
+                                        Button(action: {
+                                            if ciFirstTime {
+                                                showAlertCI = true
+                                            } else {
+                                                navigateToCI = true
+                                            }
+                                        }) {
+                                            featureButton(title: "Photo-Based Color Identification", icon: "photo", color: .pink)
+                                        }
+                                        .alert(isPresented: $showAlertCI) {
+                                            Alert(
+                                                title: Text("Important Information"),
+                                                message: Text("For best results, use Photo-Based Color Identification on simple images with clear, distinct colors."),
+                                                dismissButton: .default(Text("Continue"), action: {
+                                                    ciFirstTime = false
+                                                    navigateToCI = true
+                                                })
+                                            )
+                                        }
+                                        
+                                        NavigationLink(destination: PhotoColorIdentifierView(), isActive: $navigateToCI) {
+                                            EmptyView()
+                                        }
+                                        .hidden()
+                                    }
+                                    
+                                    //                                NavigationLink(destination: PhotoColorIdentifierView()) {
+                                    //                                    featureButton(title: "Photo-Based Color Identification", icon: "photo", color: .pink)
+                                    //
+                                    //                                }
+                                    
+                                    
+                                }}
                         }
                         .padding(.horizontal)
                     }
@@ -78,7 +132,10 @@ struct ContentView: View {
                 }
             }
         }
+        
     }
+    
+   
 
     private func featureButton(title: String, icon: String, color: Color) -> some View {
         HStack {
