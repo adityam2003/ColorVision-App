@@ -1,13 +1,8 @@
-//
+
 //  File.swift
 //  ColorVision-App
 //
 //  Created by Aditya on 06/02/25.
-//
-//
-
-
-
 
 
 import SwiftUI
@@ -19,7 +14,10 @@ struct PhotoColorIdentifierView: View {
     @State private var selectedImage: UIImage?
     @State private var tappedColorName: String = "Tap on the image to identify color"
     @State private var showPhotoPicker = false
+    @State private var showInfoAlert = false
+
     @State private var processedImage: CGImage?
+  
 private let sampleImage = UIImage(named: "SampleImage")
 
     let x11Colors: [(name: String, r: Int, g: Int, b: Int)] = [
@@ -133,15 +131,29 @@ private let sampleImage = UIImage(named: "SampleImage")
     ]
     
     var body: some View {
+        ZStack {
+            LinearGradient(gradient: Gradient(colors: [Color.blue.opacity(0.3), Color.white]), startPoint: .top, endPoint: .bottom)
+                .edgesIgnoringSafeArea(.all)
             VStack {
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        showInfoAlert = true
+                    }) {
+                        Image(systemName: "info.circle")
+                            .foregroundColor(.blue)
+                            .font(.title)
+                            .padding()
+                    }
+                }
                 Text("Photo-Based Color Identifier")
                     .font(.title2)
                     .padding()
-
+                
                 if let image = processedImage {
                     Image(decorative: image, scale: 1.0)
                         .resizable()
-                        .scaledToFill()
+                        .scaledToFit()
                         .overlay(
                             GeometryReader { geometry in
                                 Color.clear
@@ -152,7 +164,7 @@ private let sampleImage = UIImage(named: "SampleImage")
                                             x: location.x * (imageSize.width / geometry.size.width),
                                             y: location.y * (imageSize.height / geometry.size.height)
                                         )
-
+                                        
                                         if let tappedColor = getAverageColor(from: image, at: tapLocation) {
                                             tappedColorName = closestColor(to: tappedColor)
                                         }
@@ -165,7 +177,7 @@ private let sampleImage = UIImage(named: "SampleImage")
                         .foregroundColor(.gray)
                         .padding()
                 }
-
+                
                 Text(tappedColorName)
                     .font(.headline)
                     .padding()
@@ -173,7 +185,7 @@ private let sampleImage = UIImage(named: "SampleImage")
                     .background(Color.white)
                     .cornerRadius(10)
                     .shadow(radius: 5)
-
+                
                 Button("Select Photo") {
                     showPhotoPicker = true
                 }
@@ -182,7 +194,7 @@ private let sampleImage = UIImage(named: "SampleImage")
                 .foregroundColor(.white)
                 
                 .cornerRadius(10)
-
+                
                 Spacer()
             }
             .padding()
@@ -196,6 +208,14 @@ private let sampleImage = UIImage(named: "SampleImage")
             }
             .onChange(of: selectedImage) { _ in processImage() }
         }
+        
+        .alert(isPresented: $showInfoAlert) {
+            Alert(
+                title: Text("How It Works"),
+                message: Text("Tap anywhere on the image to identify the closest color name.\n📌 Note: For best results, use Photo-Based Color Identification on simple images with clear, distinct colors."),
+                dismissButton: .default(Text("OK"))
+            )
+        }}
 
         func processImage() {
             guard let uiImage = selectedImage else {
@@ -387,4 +407,5 @@ struct PhotoPicker: UIViewControllerRepresentable {
         }
     }
 }
+
 
