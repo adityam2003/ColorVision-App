@@ -109,7 +109,6 @@ private let sampleImage = UIImage(named: "SampleImage")
         ("wheat", 245, 222, 179),
         ("white", 255, 255, 255),
         ("yellow", 255, 255, 0),
-        //Gray
         ("gray0", 0, 0, 0),
         ("gray1", 3, 3, 3),
         ("gray2", 5, 5, 5),
