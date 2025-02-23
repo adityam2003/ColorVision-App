@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct IshiharaPlate {
     let imageName: String
@@ -49,3 +50,21 @@ let ishiharaPlates: [IshiharaPlate] = [
     IshiharaPlate(imageName: "plate20", correctAnswer: "96", protanopiaAnswer: "6", deuteranopiaAnswer: "9", displayOptions: ["96", "6", "9"])
    
 ]
+
+
+
+extension UIImage {
+    static func gradientImage(colors: [UIColor], size: CGSize) -> UIImage? {
+        let renderer = UIGraphicsImageRenderer(size: size)
+        return renderer.image { context in
+            let gradient = CGGradient(
+                colorsSpace: CGColorSpaceCreateDeviceRGB(),
+                colors: colors.map { $0.cgColor } as CFArray,
+                locations: nil
+            )
+            let start = CGPoint(x: 0, y: 0)
+            let end = CGPoint(x: size.width, y: size.height)
+            context.cgContext.drawLinearGradient(gradient!, start: start, end: end, options: [])
+        }
+    }
+}

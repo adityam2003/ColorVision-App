@@ -5,6 +5,7 @@
 //  Created by Aditya on 06/02/25.
 //
 
+
 import SwiftUI
 
 struct IshiharaTestView: View {
@@ -18,12 +19,13 @@ struct IshiharaTestView: View {
     @AppStorage("testTaken") private var testTaken: Bool = false
 
     var onTestCompletion: (() -> Void)?
+    
     var body: some View {
         NavigationStack {
             ZStack {
                 LinearGradient(gradient: Gradient(colors: [Color.blue.opacity(0.3), Color.white]), startPoint: .top, endPoint: .bottom)
                     .edgesIgnoringSafeArea(.all)
-                
+
                 VStack {
                     if showFinalResult {
                         ResultView(finalMessage: finalMessage, restartTest: restartTest)
@@ -32,16 +34,22 @@ struct IshiharaTestView: View {
                             Text("Ishihara Test")
                                 .font(.title)
                                 .fontWeight(.bold)
+                            
+                            ProgressView(value: Double(currentIndex + 1), total: Double(ishiharaPlates.count))
+                                .progressViewStyle(LinearProgressViewStyle())
+                                .accentColor(.blue)
+                                .padding()
+                            
                             Image(ishiharaPlates[currentIndex].imageName)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 250, height: 250)
-                                    .padding()
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 250, height: 250)
+                                .padding()
                             
                             Text("Select the number you see")
                                 .font(.headline)
                                 .foregroundColor(.gray)
-
+                            
                             ForEach(ishiharaPlates[currentIndex].displayOptions, id: \.self) { option in
                                 Button(action: {
                                     evaluateAnswer(selectedAnswer: option)
@@ -58,18 +66,19 @@ struct IshiharaTestView: View {
                             Spacer()
                         }
                         .padding()
-//                        .navigationTitle("Ishihara Test")
                         .navigationBarTitleDisplayMode(.inline)
                         .navigationBarBackButtonHidden(false)
                     }
                 }
             }
         }
+
+
     }
     
     private func evaluateAnswer(selectedAnswer: String) {
         let currentPlate = ishiharaPlates[currentIndex]
-
+        
         if selectedAnswer == currentPlate.correctAnswer {
             return
         } else if selectedAnswer == currentPlate.protanopiaAnswer && selectedAnswer == currentPlate.deuteranopiaAnswer {
@@ -120,15 +129,6 @@ struct IshiharaTestView: View {
     }
 }
 
-func getOption(from tuple: (String, String, String), at index: Int) -> String {
-    switch index {
-    case 0: return tuple.0
-    case 1: return tuple.1
-    case 2: return tuple.2
-    default: return ""
-    }
-}
-
 struct ResultView: View {
     let finalMessage: String
     var restartTest: () -> Void
@@ -139,11 +139,11 @@ struct ResultView: View {
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .padding()
-
+            
             Text(finalMessage)
                 .padding()
                 .multilineTextAlignment(.center)
-
+            
             Button("Restart Test") {
                 restartTest()
             }

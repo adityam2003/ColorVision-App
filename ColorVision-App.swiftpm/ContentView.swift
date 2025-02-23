@@ -56,19 +56,25 @@ struct ContentView: View {
                                 featureButton(title: "Take Ishihara Test", icon: "eye", color: .blue)
                             }
 
+
                             if testTaken, let blindnessType = colorBlindnessType, blindnessType != "Normal" {
                                 NavigationLink(destination: ARViewContainer()) {
                                     featureButton(title: "AR Color Identifier", icon: "arkit", color: .purple)
                                 }
 
+
                                 NavigationLink(destination: PhotoColorIdentifierView()) {
                                     featureButton(title: "Photo-Based Color Identification", icon: "photo", color: .pink)
+
                                 }
+                                
+
                             }
                         }
                         .padding(.horizontal)
                     }
                     .padding(.bottom, 30)
+
                 }
             }
         }
