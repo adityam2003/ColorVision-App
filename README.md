@@ -1,5 +1,5 @@
 Project Details ✈️
-I got the idea for ColorVision-App after talking to a friend with color blindness. He shared how difficult it can be to distinguish certain colors in everyday life—whether picking out clothes, reading signs, or choosing the right item at a store. That conversation got me thinking: What if there were a simple, offline tool to help?
+- I got the idea for ColorVision-App after talking to a friend with color blindness. He shared how difficult it can be to distinguish certain colors in everyday life—whether picking out clothes, reading signs, or choosing the right item at a store. That conversation got me thinking: What if there were a simple, offline tool to help?
 I wanted to create something more than just another test—a real-time companion that helps users both check their vision and identify colors around them. That’s why I combined the Ishihara test for detecting color blindness with an AR-based color identifier, ensuring a seamless experience.
 To achieve a smooth and efficient experience, I used ARKit, RealityKit, CoreImage, and SwiftUI:
 ARKit & RealityKit (Live Camera Color Detection):
