@@ -19,4 +19,4 @@ Project Details ✈️
 - To align with the Swift Student Challenge requirements, I designed ColorVision-App to be fully offline and under 25MB. I did not incorporate AI models for color recognition. Instead, I leveraged native Apple frameworks to deliver a fast and reliable experience without external processing.
 - Currently, ColorVision-App is optimized for identifying simple, distinct colors, making it a reliable everyday tool. While it may not yet handle highly complex images, it provides quick and clear color recognition for those who need it most.
 - Goal
-   -Ultimately, my goal is to make color identification effortless and fun, helping users navigate the world with confidence—no matter how they see it.
+    - Ultimately, my goal is to make color identification effortless and fun, helping users navigate the world with confidence—no matter how they see it.
