@@ -3,7 +3,7 @@ Project Details ✈️
 - I wanted to create something more than just another test—a real-time companion that helps users both check their vision and identify colors around them. That’s why I combined the Ishihara test for detecting color blindness with an AR-based color identifier, ensuring a seamless experience.
 - To achieve a smooth and efficient experience, I used ARKit, RealityKit, CoreImage, and SwiftUI.
 ---
-- Features
+- Features:
 1. ARKit & RealityKit (Live Camera Color Detection):
 - Enables real-time color recognition through the camera.
 - Provides lightweight AR processing without complex 3D models.
